@@ -29,18 +29,18 @@ rem
 rem $Id: service.bat 600659 2007-12-03 20:15:09Z jim $
 rem ---------------------------------------------------------------------------
 
-rem Guess VBOXPROCRUN_HOME if not defined
+rem Guess PROCRUN_HOME if not defined
 set CURRENT_DIR=%cd%
-if not "%VBOXPROCRUN_HOME%" == "" goto gotHome
-set VBOXPROCRUN_HOME=%cd%
-if exist "%VBOXPROCRUN_HOME%\bin\vboxprocrun.exe" goto okHome
+if not "%PROCRUN_HOME%" == "" goto gotHome
+set PROCRUN_HOME=%cd%
+if exist "%PROCRUN_HOME%\procrun\procrun.exe" goto okHome
 rem CD to the upper dir
 cd ..
-set VBOXPROCRUN_HOME=%cd%
+set PROCRUN_HOME=%cd%
 :gotHome
-if exist "%VBOXPROCRUN_HOME%\bin\vboxprocrun.exe" goto okHome
-echo The vboxprocrun.exe was not found...
-echo The VBOXPROCRUN_HOME environment variable is not defined correctly.
+if exist "%PROCRUN_HOME%\procrun\procrun.exe" goto okHome
+echo The procrun.exe was not found...
+echo The PROCRUN_HOME environment variable is not defined correctly.
 echo This environment variable is needed to run this program
 goto end
 rem Make sure prerequisite environment variables are set
@@ -49,22 +49,20 @@ echo The JAVA_HOME environment variable is not defined
 echo This environment variable is needed to run this program
 goto end 
 :okHome
-if not "%VBOXPROCRUN_BASE%" == "" goto gotBase
-set VBOXPROCRUN_BASE=%VBOXPROCRUN_HOME%
+if not "%PROCRUN_BASE%" == "" goto gotBase
+set PROCRUN_BASE=%PROCRUN_HOME%
 :gotBase
- 
-rem This seems to have changed to no longer have a \bin in the latest version
-rem set EXECUTABLE=%VBOXPROCRUN_HOME%\bin\vboxprocrun.exe
-set EXECUTABLE=%VBOXPROCRUN_HOME%\vboxprocrun.exe
+
+set EXECUTABLE=%PROCRUN_HOME%\procrun\procrun.exe
 
 rem Set default Service name
-set SERVICE_NAME=VBoxProcrun
-set PR_DISPLAYNAME=Virtual Box With Procrun Service
+set SERVICE_NAME=JavaAppLauncherProcrun
+set PR_DISPLAYNAME=Java App Launcher With Procrun Service
 
 if "%1" == "" goto displayUsage
 if "%2" == "" goto setServiceName
 set SERVICE_NAME=%2
-set PR_DISPLAYNAME=Virtual Box Procrun: %2
+set PR_DISPLAYNAME=Procrun: %2
 :setServiceName
 if %1 == install goto doInstall
 if %1 == remove goto doRemove
@@ -84,17 +82,17 @@ goto end
 :doInstall
 rem Install the service
 echo Installing the service '%SERVICE_NAME%' ...
-echo Using VBOXPROCRUN_HOME:    %VBOXPROCRUN_HOME%
-echo Using VBOXPROCRUN_BASE:    %VBOXPROCRUN_BASE%
-echo Using JAVA_HOME:           %JAVA_HOME%
+echo Using PROCRUN_HOME:    %PROCRUN_HOME%
+echo Using PROCRUN_BASE:    %PROCRUN_BASE%
+echo Using JAVA_HOME:       %JAVA_HOME%
 
 rem Use the environment variables as an example
 rem Each command line option is prefixed with PR_
 
-set PR_DESCRIPTION=Virtual Box (http://www.virtualbox.org) Virtual Machine with Procrun (http://commons.apache.org/daemon/procrun.html) 
+set PR_DESCRIPTION=Java App Launcher with Procrun (http://commons.apache.org/daemon/procrun.html), Currently Virtual Box (http://www.virtualbox.org) Virtual Machine
 set PR_INSTALL=%EXECUTABLE%
-set PR_LOGPATH=%VBOXPROCRUN_BASE%\log
-set PR_CLASSPATH=%VBOXPROCRUN_HOME%\classes\;%VBOXPROCRUN_HOME%\config\
+set PR_LOGPATH=%PROCRUN_BASE%\log
+set PR_CLASSPATH=%PROCRUN_HOME%\classes\;%PROCRUN_HOME%\config\
 rem Set the server jvm from JAVA_HOME
 set PR_JVM=%JAVA_HOME%\jre\bin\server\jvm.dll
 if exist "%PR_JVM%" goto foundJvm
@@ -104,7 +102,7 @@ if exist "%PR_JVM%" goto foundJvm
 set PR_JVM=auto
 :foundJvm
 echo Using JVM:              %PR_JVM%
-"%EXECUTABLE%" //IS//%SERVICE_NAME% --StartClass vboxprocrun.VBoxProcrun --StopClass vboxprocrun.VBoxProcrun --StartParams start --StopParams stop
+"%EXECUTABLE%" //IS//%SERVICE_NAME% --StartClass com.chris.MyService --StopClass com.chris.MyService --StartParams start --StopParams stop
 if not errorlevel 1 goto installed
 echo Failed installing '%SERVICE_NAME%' service
 goto end
@@ -119,7 +117,7 @@ set PR_JVM=
 rem Set extra parameters
 "%EXECUTABLE%" //US//%SERVICE_NAME% --StartMode jvm --StopMode jvm
 rem More extra parameters
-set PR_LOGPATH=%VBOXPROCRUN_BASE%\log
+set PR_LOGPATH=%PROCRUN_BASE%\log
 set PR_STDOUTPUT=auto
 set PR_STDERROR=auto
 "%EXECUTABLE%" //US//%SERVICE_NAME% --LogPath=%PR_LOGPATH% --StdOutput=%PR_STDOUTPUT% --StdError=%PR_STDOUTPUT%
