@@ -42,7 +42,7 @@
 							<mainClass>com.chris.MyService</mainClass>
 						</manifest>
 					</archive>
-<!--					<finalName>${artifactId}-${version}-tmp</finalName>-->
+					<!--					<finalName>${artifactId}-${version}-tmp</finalName>-->
 				</configuration>
 			</plugin>
 			<plugin>
@@ -69,44 +69,30 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<!--			<plugin>-->
-			<!--				<groupId>org.apache.maven.plugins</groupId>-->
-			<!--				<artifactId>maven-shade-plugin</artifactId>-->
-			<!--				<version>1.2</version>-->
-			<!--				<executions>-->
-			<!--					<execution>-->
-			<!--						<phase>package</phase>-->
-			<!--						<goals>-->
-			<!--							<goal>shade</goal>-->
-			<!--						</goals>-->
-			<!--						<configuration>-->
-			<!--							<artifactSet>-->
-			<!--								 Use this to in/exclude only specific dependencies -->
-			<!--								 By default only direct dependencies are include -->
-			<!--								<includes>-->
-			<!--									<include></include>-->
-			<!--								</includes>-->
-			<!--								<includes>-->
-			<!--
-				<include>commons-configuration:commons-configuration</include>
-			-->
-			<!--									<include>org.slf4j:slf4j-api</include>-->
-			<!--									<include>ch.qos.logback:logback-classic</include>-->
-			<!--									<include>ch.qos.logback:logback-core</include>-->
-			<!--								</includes>-->
-			<!--							</artifactSet>-->
-			<!--						</configuration>-->
-			<!--					</execution>-->
-			<!--				</executions>-->
-			<!--				<configuration>-->
-			<!--					<archive>-->
-			<!--						<manifest>-->
-			<!--							<mainClass>com.chris.MyService</mainClass>-->
-			<!--						</manifest>-->
-			<!--					</archive>-->
-			<!--				</configuration>-->
-			<!--			</plugin>-->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.1</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target</outputDirectory>
+							<resources>
+								<resource>
+									<directory>scripts/</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+		<scriptSourceDirectory>scripts</scriptSourceDirectory>
 	</build>
 </project>
