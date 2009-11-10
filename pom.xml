@@ -64,7 +64,7 @@
 							</transformers>
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<!-- Any name that makes sense -->
-							<shadedClassifierName>-jackofall</shadedClassifierName>
+							<shadedClassifierName>jackofall</shadedClassifierName>
 						</configuration>
 					</execution>
 				</executions>
