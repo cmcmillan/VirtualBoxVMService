@@ -69,29 +69,53 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.4.1</version>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<!-- here the phase you need -->
-						<phase>validate</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target</outputDirectory>
-							<resources>
-								<resource>
-									<directory>scripts/</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+<!--			<plugin>-->
+<!--				<artifactId>maven-resources-plugin</artifactId>-->
+<!--				<version>2.4.1</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>copy-resources</id>-->
+<!--						 here the phase you need -->
+<!--						<phase>validate</phase>-->
+<!--						<goals>-->
+<!--							<goal>copy-resources</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<outputDirectory>${basedir}/target</outputDirectory>-->
+<!--							<resources>-->
+<!--								<resource>-->
+<!--									<directory>scripts/</directory>-->
+<!--									<filtering>true</filtering>-->
+<!--								</resource>-->
+<!--							</resources>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
+<plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.4.1</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <!-- here the phase you need -->
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>src/scripts</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+        </executions>
+      </plugin>
+
 		</plugins>
 		<scriptSourceDirectory>scripts</scriptSourceDirectory>
 	</build>
